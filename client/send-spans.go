@@ -8,7 +8,7 @@ import (
 	"../api"
 )
 
-func (s *TrasierClient) sendSpans(spans []api.Span) error {
+func (s *TrasierClient) SendSpans(spans []api.Span) error {
 	url := fmt.Sprintf(baseURL+"/%s/space/%s/spans/", s.AccountId, s.SpaceKey)
 	fmt.Println(url)
 	j, err := json.Marshal(spans)
