@@ -12,7 +12,7 @@ type Span struct {
 	IncomingEndpoint Endpoint
 	IncomingContentType ContentType
 	IncomingData string
-	FinishProcessingTimestamp string
+	FinishProcessingTimestamp int64
 	EndTimestamp int64
 	OutgoingEndpoint Endpoint
 	OutgoingContentType ContentType

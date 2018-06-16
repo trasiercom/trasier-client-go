@@ -9,7 +9,7 @@ import (
 )
 
 func (s *TrasierClient) SendSpans(spans []api.Span) error {
-	url := fmt.Sprintf(baseURL+"/%s/space/%s/spans/", s.AccountId, s.SpaceKey)
+	url := fmt.Sprintf(baseURL+"/%s/space/%s/spans", s.AccountId, s.SpaceKey)
 	fmt.Println(url)
 	j, err := json.Marshal(spans)
 	if err != nil {

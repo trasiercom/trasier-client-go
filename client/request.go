@@ -8,6 +8,7 @@ import (
 
 func (s *TrasierClient) doRequest(req *http.Request) ([]byte, error) {
 	// req.SetBasicAuth(s.Username, s.Password)
+	req.Header.Add("Content-Type", "application/json;charset=utf-8");
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {

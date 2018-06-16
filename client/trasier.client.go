@@ -1,6 +1,6 @@
 package client
 
-const baseURL string = "https://trasier-writer-dev.app.trasier.com/api/accounts"
+const baseURL string = "http://localhost:8081/api/accounts"
 
 type TrasierClient struct {
 	AccountId string

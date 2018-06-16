@@ -1,13 +1,10 @@
 package main
 
 import (
-	"./client"
+	"./example"
 )
 
 func main() {
-
-
-	trasierClient := client.NewTrasierClient("accountId", "spaceKey")
-	trasierClient.SendSpans(nil)
-
+	awesomeConsumer := example.ExampleConsumer{}
+	awesomeConsumer.SendSpans()
 }
