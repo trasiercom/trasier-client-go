@@ -1,8 +1,8 @@
 package api
 
 type Endpoint struct {
-	Name string
-	IpAddress string
-	Port string
-	Hostname string
+	Name string `json:"name"`
+	IpAddress string `json:"ipAddress"`
+	Port string `json:"port"`
+	Hostname string `json:"hostname"`
 }
