@@ -1,15 +1,20 @@
 package client
 
-const baseURL string = "http://localhost:8081/api/accounts"
+import "../api"
 
 type TrasierClient struct {
-	AccountId string
-	SpaceKey string
+	spanService SpanService
+	baseUrl     string
 }
 
 func NewTrasierClient(accountId string, spaceKey string) *TrasierClient {
-	return &TrasierClient{
-		AccountId:accountId,
-		SpaceKey: spaceKey,
-	}
+	trasierClient := TrasierClient{}
+	spanService := SpanService{AccountId: accountId, SpaceKey: spaceKey}
+	trasierClient.spanService = spanService
+	trasierClient.baseUrl = "http://localhost:8081/api/accounts"
+	return &trasierClient
+}
+
+func (t *TrasierClient) SendSpans(spans []api.Span) error {
+	return t.spanService.SendSpans(spans, t.baseUrl)
 }
