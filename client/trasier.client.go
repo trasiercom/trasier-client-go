@@ -11,7 +11,7 @@ func NewTrasierClient(accountId string, spaceKey string) *TrasierClient {
 	trasierClient := TrasierClient{}
 	spanService := SpanService{AccountId: accountId, SpaceKey: spaceKey}
 	trasierClient.spanService = spanService
-	trasierClient.baseUrl = "http://localhost:8081/api/accounts"
+	trasierClient.baseUrl = "http://localhost:8081/api/"
 	return &trasierClient
 }
 

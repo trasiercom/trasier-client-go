@@ -15,7 +15,7 @@ type SpanService struct {
 }
 
 func (s *SpanService) SendSpans(spans []api.Span, baseURL string) error {
-	url := fmt.Sprintf(baseURL+"/%s/space/%s/spans", s.AccountId, s.SpaceKey)
+	url := fmt.Sprintf(baseURL+"accounts/%s/space/%s/spans", s.AccountId, s.SpaceKey)
 	j, err := json.Marshal(spans)
 	if err != nil {
 		return err
@@ -30,7 +30,7 @@ func (s *SpanService) SendSpans(spans []api.Span, baseURL string) error {
 
 func (s *SpanService) doRequest(req *http.Request) ([]byte, error) {
 	// req.SetBasicAuth(s.Username, s.Password)
-	req.Header.Add("Content-Type", "application/json;charset=utf-8");
+	req.Header.Add("Content-Type", "application/json;charset=utf-8")
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
