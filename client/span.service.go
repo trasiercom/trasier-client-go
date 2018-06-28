@@ -10,12 +10,10 @@ import (
 )
 
 type SpanService struct {
-	AccountId string
-	SpaceKey string
 }
 
-func (s *SpanService) SendSpans(spans []api.Span, baseURL string) error {
-	url := fmt.Sprintf(baseURL+"accounts/%s/space/%s/spans", s.AccountId, s.SpaceKey)
+func (s *SpanService) SendSpans(accountId string, spaceKey string, spans []api.Span, baseURL string) error {
+	url := fmt.Sprintf(baseURL+"accounts/%s/space/%s/spans", accountId, spaceKey)
 	j, err := json.Marshal(spans)
 	if err != nil {
 		return err
