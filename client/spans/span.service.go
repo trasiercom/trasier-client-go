@@ -1,4 +1,4 @@
-package client
+package spans
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"bytes"
 	"io/ioutil"
-	"../api"
+	"../../api"
 )
 
 type SpanService struct {

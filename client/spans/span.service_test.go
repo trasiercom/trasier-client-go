@@ -1,16 +1,16 @@
-package client
+package spans
 
 import (
 	"testing"
 	"net/http"
 	"fmt"
 	"net/http/httptest"
-	"../api"
+	"../../api"
 )
 
 func TestSendSpans(t *testing.T) {
 	// given
-	spanService := SpanService{AccountId: "TestAccount", SpaceKey: "Testspace"}
+	spanService := SpanService{}
 	echoHandler := func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, r.FormValue("p"))
 	}
@@ -18,7 +18,7 @@ func TestSendSpans(t *testing.T) {
 	defer ts.Close()
 
 	// when
-	err := spanService.SendSpans([]api.Span{}, ts.URL+"/")
+	err := spanService.SendSpans("awesomeAccount", "awesomeKey", []api.Span{}, ts.URL+"/")
 	// then
 	if err != nil {
 		t.Errorf("Error: %v", err)
@@ -27,7 +27,7 @@ func TestSendSpans(t *testing.T) {
 
 func TestMustReturnHTTPErrors(t *testing.T) {
 	// given
-	spanService := SpanService{AccountId: "TestAccount", SpaceKey: "Testspace"}
+	spanService := SpanService{}
 	echoHandler := func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(401)
 	}
@@ -35,7 +35,7 @@ func TestMustReturnHTTPErrors(t *testing.T) {
 	defer ts.Close()
 
 	// when
-	err := spanService.SendSpans([]api.Span{}, ts.URL+"/")
+	err := spanService.SendSpans("awesomeAccount", "awesomeKey", []api.Span{}, ts.URL+"/")
 	// then
 	if err == nil {
 		t.Errorf("Error: %v", err)
@@ -43,8 +43,8 @@ func TestMustReturnHTTPErrors(t *testing.T) {
 }
 
 func TestMustThrowUnsupportedTypeException(t *testing.T) {
-	spanService := SpanService{AccountId: "TestAccount", SpaceKey: "Testspace"}
-	err := spanService.SendSpans(nil, "")
+	spanService := SpanService{}
+	err := spanService.SendSpans("awesomeAccount", "awesomeKey", nil, "")
 	if err == nil {
 		t.Errorf("Error: no error thrown: Expected Method to throw UnsupportedTypeException")
 	}

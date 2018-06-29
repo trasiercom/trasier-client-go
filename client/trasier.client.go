@@ -1,16 +1,18 @@
 package client
 
-import "../api"
+import (
+	"../api"
+	"./spans"
+)
 
 type TrasierClient struct {
-	spanService SpanService
+	spanService spans.SpanService
 	baseUrl     string
 }
 
 func NewTrasierClient() *TrasierClient {
 	trasierClient := TrasierClient{}
-	spanService := SpanService{}
-	trasierClient.spanService = spanService
+	trasierClient.spanService = spans.SpanService{}
 	trasierClient.baseUrl = "http://localhost:8081/api/"
 	return &trasierClient
 }
