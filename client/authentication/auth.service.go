@@ -3,9 +3,10 @@ package authentication
 import (
 	"net/http"
 	"log"
-	"io/ioutil"
 	"net/url"
 	"strings"
+	"encoding/json"
+	"io/ioutil"
 )
 
 type AuthService struct {
@@ -17,7 +18,7 @@ func NewAuthService(clientId string, clientSecret string) *AuthService {
 	return &AuthService{clientId: clientId, clientSecret: clientSecret}
 }
 
-func (authService *AuthService) GetAuthToken() (authToken string) {
+func (authService *AuthService) GetAuthToken() (*AuthToken) {
 	client := &http.Client{}
 
 	data := url.Values{}
@@ -33,6 +34,19 @@ func (authService *AuthService) GetAuthToken() (authToken string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	bodyText, err := ioutil.ReadAll(resp.Body)
-	return string(bodyText)
+
+	body, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	authToken := new(AuthToken)
+	err = json.Unmarshal(body, &authToken)
+
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	return authToken
 }
