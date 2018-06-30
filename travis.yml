@@ -1,4 +1,3 @@
-# use container-based test instead of vm (container-based is faster)
 sudo: false
 
 language: go
