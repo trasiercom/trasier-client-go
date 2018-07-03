@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"bytes"
 	"io/ioutil"
-	"../../api"
+	"trasier-client-go/api"
 )
 
 type SpanService struct {

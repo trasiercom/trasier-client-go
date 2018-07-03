@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./example"
-	"./client/authentication"
+	"trasier-client-go/example"
+	"trasier-client-go/client/authentication"
 )
 
 func main() {
