@@ -13,5 +13,9 @@ install: true
 notifications:
   email: false
 
+install:
+    - go get github.com/trasier-com/trasier-client-go/client
+    - go get github.com/trasier-com/trasier-client-go/api
+
 script:
   - go test -v ./...
