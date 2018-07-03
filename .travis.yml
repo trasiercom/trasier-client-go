@@ -13,7 +13,7 @@ install: true
 notifications:
   email: false
 
-go_import_path: src/
+go_import_path: /
 
 script:
   - go test -v ./...
