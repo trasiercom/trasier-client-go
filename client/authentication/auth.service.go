@@ -1,47 +1,47 @@
 package authentication
 
 import (
-	"net/http"
 	"log"
-	"net/url"
-	"strings"
 	"encoding/json"
-	"io/ioutil"
+	"time"
 )
 
 const keycloakUrl = "https://trasier-keycloak-test.app.trasier.com/auth/realms/trasier-dev/protocol/openid-connect/token"
 
 type AuthService struct {
-	clientId     string
-	clientSecret string
-	request      *http.Request
+	clientId            string
+	clientSecret        string
+	tokenService        *TokenService
+	authToken           *AuthToken
+	tokenExpirationTime time.Time
 }
 
 func NewAuthService(clientId string, clientSecret string) *AuthService {
-	request, err := createRequest(clientId, clientSecret)
-	if err != nil {
-		log.Fatal("Something went wrong while creating the request", err)
+	tokenService := NewTokenService(clientId, clientSecret)
+	return &AuthService{clientId: clientId, clientSecret: clientSecret, tokenService: tokenService}
+}
+
+func (authService *AuthService) GetToken() *AuthToken {
+
+	// TODO lock with mutex
+
+	if authService.authToken == nil {
+		return authService.getNewAuthToken()
 	}
-	return &AuthService{clientId: clientId, clientSecret: clientSecret, request: request}
+
+	if (authService.isTokenExpired()) {
+		// TODO refresh token
+	}
+
+	return authService.authToken
 }
 
-func createRequest(clientId string, clientSecret string) (request *http.Request, err error) {
-	request, err = http.NewRequest("POST", keycloakUrl, strings.NewReader(createRequestBody().Encode()))
-	request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	request.SetBasicAuth(clientId, clientSecret)
-	return
-}
-
-func createRequestBody() (requestBody url.Values) {
-	requestBody = url.Values{}
-	requestBody.Set("grant_type", "client_credentials")
-	requestBody.Add("scope", "")
-	return
-}
-
-func (authService *AuthService) GetAuthToken() (*AuthToken) {
-	body := authService.requestToken()
-	return authService.convertToAuthToken(body)
+func (authService *AuthService) getNewAuthToken() *AuthToken {
+	body := authService.tokenService.requestToken()
+	authService.authToken = authService.convertToAuthToken(body)
+	timeToAdd := time.Second * time.Duration(authService.authToken.ExpiresIn)
+	authService.tokenExpirationTime = time.Now().Add(timeToAdd)
+	return authService.authToken
 }
 
 func (authService *AuthService) convertToAuthToken(body []byte) *AuthToken {
@@ -53,16 +53,6 @@ func (authService *AuthService) convertToAuthToken(body []byte) *AuthToken {
 	return authToken
 }
 
-func (authService *AuthService) requestToken() []byte {
-	client := &http.Client{}
-	resp, err := client.Do(authService.request)
-	if err != nil {
-		log.Fatal("Something went wrong while sending the request", err)
-	}
-
-	body, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal("Something went wrong whily reading the response", err.Error())
-	}
-	return body
+func (authService *AuthService) isTokenExpired() bool {
+	return time.Now().After(authService.tokenExpirationTime)
 }
