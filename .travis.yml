@@ -1,21 +1,6 @@
-sudo: false
-
 language: go
-go:
-  - 1.9.x
-  - 1.x
-
-git:
-  depth: 1
-
-install: true
-
-notifications:
-  email: false
-
-install:
-    - go get github.com/trasier-com/trasier-client-go/client
-    - go get github.com/trasier-com/trasier-client-go/api
+go: 
+ - 1.9.x
 
 script:
-  - go test -v ./...
+ - go test -v ./...
