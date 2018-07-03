@@ -25,13 +25,15 @@ func (authService *AuthService) GetToken() (authToken *AuthToken) {
 	authService.mux.Lock()
 
 	if authService.authToken == nil {
-		authToken = authService.getNewAuthToken()
+		authToken = authService.RequestNewToken()
 		authService.mux.Unlock()
 		return
 	}
 
 	if authService.isTokenExpired() {
-		// TODO refresh token
+		authToken = authService.RefreshToken()
+		authService.mux.Unlock()
+		return
 	}
 
 	authToken = authService.authToken
@@ -39,12 +41,22 @@ func (authService *AuthService) GetToken() (authToken *AuthToken) {
 	return
 }
 
-func (authService *AuthService) getNewAuthToken() (authToken *AuthToken) {
+func (authService *AuthService) RequestNewToken() (authToken *AuthToken) {
 	authToken = authService.tokenService.GetNewToken()
+	authService.updateToken(authToken)
+	return
+}
+
+func (authService *AuthService) RefreshToken() (authToken *AuthToken) {
+	authToken = authService.tokenService.RefreshToken(authService.authToken.RefreshToken)
+	authService.updateToken(authToken)
+	return
+}
+
+func (authService *AuthService) updateToken(authToken *AuthToken) {
 	authService.authToken = authToken
 	timeToAdd := time.Second * time.Duration(authService.authToken.ExpiresIn)
 	authService.tokenExpirationTime = time.Now().Add(timeToAdd)
-	return
 }
 
 func (authService *AuthService) isTokenExpired() bool {
