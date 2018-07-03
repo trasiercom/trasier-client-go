@@ -1,9 +1,8 @@
 package authentication
 
 import (
-	"log"
-	"encoding/json"
 	"time"
+	"sync"
 )
 
 const keycloakUrl = "https://trasier-keycloak-test.app.trasier.com/auth/realms/trasier-dev/protocol/openid-connect/token"
@@ -14,6 +13,7 @@ type AuthService struct {
 	tokenService        *TokenService
 	authToken           *AuthToken
 	tokenExpirationTime time.Time
+	mux                 sync.Mutex
 }
 
 func NewAuthService(clientId string, clientSecret string) *AuthService {
@@ -21,36 +21,30 @@ func NewAuthService(clientId string, clientSecret string) *AuthService {
 	return &AuthService{clientId: clientId, clientSecret: clientSecret, tokenService: tokenService}
 }
 
-func (authService *AuthService) GetToken() *AuthToken {
-
-	// TODO lock with mutex
+func (authService *AuthService) GetToken() (authToken *AuthToken) {
+	authService.mux.Lock()
 
 	if authService.authToken == nil {
-		return authService.getNewAuthToken()
+		authToken = authService.getNewAuthToken()
+		authService.mux.Unlock()
+		return
 	}
 
-	if (authService.isTokenExpired()) {
+	if authService.isTokenExpired() {
 		// TODO refresh token
 	}
 
-	return authService.authToken
+	authToken = authService.authToken
+	authService.mux.Unlock()
+	return
 }
 
-func (authService *AuthService) getNewAuthToken() *AuthToken {
-	body := authService.tokenService.requestToken()
-	authService.authToken = authService.convertToAuthToken(body)
+func (authService *AuthService) getNewAuthToken() (authToken *AuthToken) {
+	authToken = authService.tokenService.GetNewToken()
+	authService.authToken = authToken
 	timeToAdd := time.Second * time.Duration(authService.authToken.ExpiresIn)
 	authService.tokenExpirationTime = time.Now().Add(timeToAdd)
-	return authService.authToken
-}
-
-func (authService *AuthService) convertToAuthToken(body []byte) *AuthToken {
-	authToken := new(AuthToken)
-	err := json.Unmarshal(body, &authToken)
-	if err != nil {
-		log.Fatal("Something went wrong during unmarshalling the response", err.Error())
-	}
-	return authToken
+	return
 }
 
 func (authService *AuthService) isTokenExpired() bool {
