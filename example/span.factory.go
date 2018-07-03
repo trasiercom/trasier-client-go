@@ -1,7 +1,7 @@
 package example
 
 import (
-	"../api"
+	"trasier-client-go/api"
 )
 
 func createSpans() (spans []api.Span) {
