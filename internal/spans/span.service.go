@@ -12,13 +12,15 @@ import (
 type SpanService struct {
 }
 
-func (s *SpanService) SendSpans(accountId string, spaceKey string, spans []api.Span, baseURL string) error {
+func (s *SpanService) SendSpans(accountId string, spaceKey string, spans []api.Span, baseURL string, authToken string) error {
 	url := fmt.Sprintf(baseURL+"accounts/%s/space/%s/spans", accountId, spaceKey)
 	j, err := json.Marshal(spans)
 	if err != nil {
 		return err
 	}
 	req, err := http.NewRequest("POST", url, bytes.NewBuffer(j))
+	req.Header.Set("Authorization", "Bearer "+authToken)
+
 	if err != nil {
 		return err
 	}

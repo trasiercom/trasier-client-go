@@ -1,22 +1,15 @@
 package main
 
 import (
-	"github.com/trasiercom/trasier-client-go/internal/authentication"
 	"github.com/trasiercom/trasier-client-go/example"
+	"os"
+	"github.com/trasiercom/trasier-client-go/pkg"
 )
 
 func main() {
 
-	clientId := "YOUR_CLIENTID"
-	clientSecret := "YOUR_CLIENTSECRET"
-
-	authService := authentication.NewAuthService(clientId, clientSecret)
-
-	println("Getting the token")
-	println("=====================")
-	authToken := authService.GetToken()
-	println("Auth token: " + authToken.AccessToken)
-	println("=====================")
+	os.Setenv(pkg.TrasierClientIdKey, "YOUR_CLIENTID")
+	os.Setenv(pkg.TrasierClientSecretKey, "YOUR_CLIENTSECRET")
 
 	awesomeConsumer := example.ExampleConsumer{}
 	awesomeConsumer.SendSpans()

@@ -25,13 +25,13 @@ func (authService *AuthService) GetToken() (authToken *AuthToken) {
 	authService.mux.Lock()
 
 	if authService.authToken == nil {
-		authToken = authService.RequestNewToken()
+		authToken = authService.requestNewToken()
 		authService.mux.Unlock()
 		return
 	}
 
 	if authService.isTokenExpired() {
-		authToken = authService.RefreshToken()
+		authToken = authService.refreshToken()
 		authService.mux.Unlock()
 		return
 	}
@@ -41,13 +41,13 @@ func (authService *AuthService) GetToken() (authToken *AuthToken) {
 	return
 }
 
-func (authService *AuthService) RequestNewToken() (authToken *AuthToken) {
+func (authService *AuthService) requestNewToken() (authToken *AuthToken) {
 	authToken = authService.tokenService.GetNewToken()
 	authService.updateToken(authToken)
 	return
 }
 
-func (authService *AuthService) RefreshToken() (authToken *AuthToken) {
+func (authService *AuthService) refreshToken() (authToken *AuthToken) {
 	authToken = authService.tokenService.RefreshToken(authService.authToken.RefreshToken)
 	authService.updateToken(authToken)
 	return
