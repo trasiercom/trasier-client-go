@@ -2,7 +2,7 @@ package example
 
 import (
 	"fmt"
-	"trasier-client-go/pkg"
+	"github.com/trasiercom/trasier-client-go/pkg"
 )
 
 type ExampleConsumer struct {

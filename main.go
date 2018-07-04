@@ -1,8 +1,8 @@
 package main
 
 import (
-	"trasier-client-go/example"
-	"trasier-client-go/internal/authentication"
+	"github.com/trasiercom/trasier-client-go/internal/authentication"
+	"github.com/trasiercom/trasier-client-go/example"
 )
 
 func main() {

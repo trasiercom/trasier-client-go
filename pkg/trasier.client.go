@@ -1,8 +1,8 @@
 package pkg
 
 import (
-	"trasier-client-go/api"
-	"trasier-client-go/internal/spans"
+	"github.com/trasiercom/trasier-client-go/internal/spans"
+	"github.com/trasiercom/trasier-client-go/api"
 )
 
 type TrasierClient struct {
