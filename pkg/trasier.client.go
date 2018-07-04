@@ -10,14 +10,14 @@ import (
 const TrasierClientIdKey = "trasier-client-id"
 const TrasierClientSecretKey = "trasier-client-secret"
 
-type TrasierClient struct {
+type trasierClient struct {
 	spanService spans.SpanService
 	baseUrl     string
 	authService *authentication.AuthService
 }
 
-func NewTrasierClient() *TrasierClient {
-	trasierClient := TrasierClient{}
+func NewTrasierClient() *trasierClient {
+	trasierClient := trasierClient{}
 	trasierClient.spanService = spans.SpanService{}
 	trasierClient.baseUrl = "http://localhost:8081/api/"
 
@@ -28,7 +28,7 @@ func NewTrasierClient() *TrasierClient {
 	return &trasierClient
 }
 
-func (t *TrasierClient) SendSpans(accountId string, spaceKey string, spans []api.Span) error {
+func (t *trasierClient) SendSpans(accountId string, spaceKey string, spans []api.Span) {
 	authToken := t.authService.GetToken()
-	return t.spanService.SendSpans(accountId, spaceKey, spans, t.baseUrl, authToken.AccessToken)
+	t.spanService.SendSpans(accountId, spaceKey, spans, t.baseUrl, authToken.AccessToken)
 }
