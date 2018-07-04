@@ -15,6 +15,9 @@ notifications:
 
 install:
   - go get github.com/trasiercom/trasier-client-go
+  - go get github.com/mattn/goveralls
+  - go get golang.org/x/tools/cmd/cover
 
 script:
-  - go test -v ./...
+  - go vet
+  - $HOME/gopath/bin/goveralls -repotoken hS6BSwZpBQOn49C0WcLCf2OmQFY1it2bY
