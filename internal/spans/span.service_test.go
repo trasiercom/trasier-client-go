@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"fmt"
 	"net/http/httptest"
-	"../../api"
+	"github.com/trasiercom/trasier-client-go/api"
 )
 
 func TestSendSpans(t *testing.T) {
