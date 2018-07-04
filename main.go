@@ -7,7 +7,10 @@ import (
 
 func main() {
 
-	authService := authentication.NewAuthService("trasier-dev_170530_demo1", "MjUxYzRmNDAtMWJiOS00NzhiLWEzMWYtYWQxNWRkZGVmZTg4")
+	clientId := "YOUR_CLIENTID"
+	clientSecret := "YOUR_CLIENTSECRET"
+
+	authService := authentication.NewAuthService(clientId, clientSecret)
 
 	println("Getting the token")
 	println("=====================")
