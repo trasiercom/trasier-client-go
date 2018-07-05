@@ -6,7 +6,7 @@ import (
 
 func createSpans() (spans []api.Span) {
 	spans = []api.Span{
-		createSpan("8124231b-2902-4ccc-334f-5b6aa06b3c81"),
+		createSpan("b368152c-e9de-424c-89ad-aa8f8b1424d5"),
 	}
 	return
 }
@@ -14,9 +14,9 @@ func createSpans() (spans []api.Span) {
 func createSpan(id string) (span api.Span) {
 	span = api.Span{
 		Id:                        id,
-		ParentId:                  "8124231b-2902-4ccc-a480-5b6aa06b3c80",
-		TraceId:                   "8124231b-e3b7-4ccc-a480-5b6aa06b3000",
-		ConversationId:            "8124231b-e3b7-4ccc-a480-5b6aa06b0000",
+		ParentId:                  "",
+		TraceId:                   "5823e2a3-6a96-4187-854f-a72a60a91b20",
+		ConversationId:            "6f581887-c907-4b31-9288-1e3140c63eb9",
 		OperationName:             "GET_QUOTE",
 		Error:                     false,
 		StartTimestamp:            1529075380,

@@ -35,7 +35,7 @@ The Span struct is located in the API package. Just use the span struct to creat
 ```
 func createSpans() (spans []api.Span) {
 	spans = []api.Span{
-		createSpan("b368152c-e9de-424c-89ad-aa8f8b1424d9"),
+		createSpan("b368152c-e9de-424c-89ad-aa8f8b1424d5"),
 	}
 	return
 }
@@ -43,9 +43,9 @@ func createSpans() (spans []api.Span) {
 func createSpan(id string) (span api.Span) {
 	span = api.Span{
 		Id:                        id,
-		ParentId:                  "b368152c-e9de-424c-89ad-aa8f8b1424d9",
-		TraceId:                   "b368152c-e9de-424c-89ad-aa8f8b1424d9",
-		ConversationId:            "b368152c-e9de-424c-89ad-aa8f8b1424d9",
+		ParentId:                  "",
+        TraceId:                   "5823e2a3-6a96-4187-854f-a72a60a91b20",
+        ConversationId:            "6f581887-c907-4b31-9288-1e3140c63eb9",
 		OperationName:             "GET_QUOTE",
 		Error:                     false,
 		StartTimestamp:            1529075380,
