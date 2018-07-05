@@ -14,7 +14,7 @@ type SpanService struct {
 }
 
 func (s *SpanService) SendSpans(accountId string, spaceKey string, spans []api.Span, baseURL string, authToken string) {
-	url := fmt.Sprintf(baseURL+"accounts/%s/space/%s/spans", accountId, spaceKey)
+	url := fmt.Sprintf(baseURL+"accounts/%s/spaces/%s/spans", accountId, spaceKey)
 	j, err := json.Marshal(spans)
 	if err != nil {
 		log.Fatal(err)
