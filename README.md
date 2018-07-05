@@ -44,8 +44,8 @@ func createSpan(id string) (span api.Span) {
 	span = api.Span{
 		Id:                        id,
 		ParentId:                  "",
-        TraceId:                   "5823e2a3-6a96-4187-854f-a72a60a91b20",
-        ConversationId:            "6f581887-c907-4b31-9288-1e3140c63eb9",
+        	TraceId:                   "5823e2a3-6a96-4187-854f-a72a60a91b20",
+        	ConversationId:            "6f581887-c907-4b31-9288-1e3140c63eb9",
 		OperationName:             "GET_QUOTE",
 		Error:                     false,
 		StartTimestamp:            1529075380,
